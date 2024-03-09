@@ -19,8 +19,20 @@ namespace Shared.Services.Concrete
                     type: @event.GetType().Name,
                     data: JsonSerializer.SerializeToUtf8Bytes(@event)
                 );
+
+
+        public async Task SubscribeToStreamAsync(string streamName, Func<StreamSubscription, ResolvedEvent, CancellationToken, Task> eventAppeared)
+            => await Client.SubscribeToStreamAsync(
+                    streamName: streamName,
+                    start: FromStream.Start,
+                    eventAppeared: eventAppeared,
+                    subscriptionDropped : (_, _, _) => Console.WriteLine("Disconnected")
+                );
+
         private EventStoreClientSettings GetEventStoreClientSettings(string connectionString)
             => EventStoreClientSettings.Create(connectionString);
+
+
         private EventStoreClient Client { get => new(GetEventStoreClientSettings(_connectionString)); }
 
     }

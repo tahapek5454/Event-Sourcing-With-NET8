@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProductApp.Models.ViewModels;
+using Shared;
 using Shared.Events;
 using Shared.Services.Abstract;
 
@@ -24,7 +25,7 @@ namespace ProductApp.Controllers
                 ProductName = createProductVM.ProductName,
             };
 
-            await _eventStoreService.AppendToStreamAsync("product-stream",
+            await _eventStoreService.AppendToStreamAsync(ConstValues.ProductsStream,
                     new[] { _eventStoreService.GenerateEventData(@event) }
                 );
 
