@@ -13,6 +13,11 @@ var eventSourceConnectionString = builder.Configuration["EventSource"];
 builder.Services.AddSingleton<IEventStoreService>(_ => new EventStoreService(eventSourceConnectionString ?? string.Empty));
 
 
+var mongoDbConnectionString = builder.Configuration["MongoDb:ConnectionString"];
+var mongoDbName = builder.Configuration["MongoDb:DataBaseName"];
+builder.Services.AddSingleton<IMongoDbService>(_ => new MongoDbService(mongoDbConnectionString, mongoDbName));
+
+
 var app = builder.Build();
 
 

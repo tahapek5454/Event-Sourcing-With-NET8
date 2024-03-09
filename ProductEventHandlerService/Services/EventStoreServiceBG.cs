@@ -1,8 +1,8 @@
 ﻿
 using MongoDB.Driver;
-using ProductEventHandlerService.Models;
 using Shared;
 using Shared.Events;
+using Shared.Models;
 using Shared.Services.Abstract;
 using System.Reflection;
 using System.Text.Json;

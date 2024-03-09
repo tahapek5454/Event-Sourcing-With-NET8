@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ProductEventHandlerService.Models
+namespace Shared.Models
 {
     public class Product
     {
@@ -12,7 +12,7 @@ namespace ProductEventHandlerService.Models
 
         [BsonRepresentation(BsonType.String)]
         [BsonElement(Order = 1)]
-        public string  ProductName { get; set; }
+        public string ProductName { get; set; }
 
         [BsonRepresentation(BsonType.Int64)]
         [BsonElement(Order = 2)]
