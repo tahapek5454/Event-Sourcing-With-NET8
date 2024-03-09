@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.2.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.24.0" />
   </ItemGroup>
 
 </Project>
