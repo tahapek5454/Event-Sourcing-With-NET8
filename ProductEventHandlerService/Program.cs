@@ -1,4 +1,4 @@
-using ProductEventHandlerService;
+using ProductEventHandlerService.Services;
 using Shared.Services.Abstract;
 using Shared.Services.Concrete;
 
@@ -13,7 +13,7 @@ builder.Services.AddSingleton<IEventStoreService>(_ => new EventStoreService(eve
 
 builder.Services.AddSingleton<IMongoDbService>(_ => new MongoDbService(mongoDbConnectionString, mongoDbName));
 
-builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<EventStoreServiceBG>();
 
 var host = builder.Build();
 host.Run();
