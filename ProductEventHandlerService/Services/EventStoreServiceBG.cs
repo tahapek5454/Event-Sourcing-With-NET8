@@ -24,6 +24,7 @@ namespace ProductEventHandlerService.Services
 
                      var productCollection = _mongoDbService.GetCollection<Product>(ConstValues.ProductCollectionName);
 
+                     Product product = null;
                      switch (@event)
                      {
                          case NewProductAddedEvent e:
@@ -41,6 +42,50 @@ namespace ProductEventHandlerService.Services
                                   ProductName = e.ProductName,
                              });
 
+                             break;
+
+                         case CountDecreasedEvent e:
+                             product = await (await productCollection.FindAsync(p => p.Id == e.ProductId)).FirstOrDefaultAsync();
+                             if(product is not null)
+                             {
+                                 product.Count -= e.DecrementAmount;
+                                 await productCollection.FindOneAndReplaceAsync(p => p.Id == e.ProductId, product);
+                             }
+                             break;
+
+                         case CountIncreasedEvent e:
+                             product = await (await productCollection.FindAsync(p => p.Id == e.ProductId)).FirstOrDefaultAsync();
+                             if (product is not null)
+                             {
+                                 product.Count += e.IncrementAmount;
+                                 await productCollection.FindOneAndReplaceAsync(p => p.Id == e.ProductId, product);
+                             }
+                             break;
+
+                         case PriceDecreasedEvent e:
+                             product = await (await productCollection.FindAsync(p => p.Id == e.ProductId)).FirstOrDefaultAsync();
+                             if (product is not null)
+                             {
+                                 product.Price -= e.DecrementPrice;
+                                 await productCollection.FindOneAndReplaceAsync(p => p.Id == e.ProductId, product);
+                             }
+                             break;
+
+                         case PriceIncreasedEvent e:
+                             product = await (await productCollection.FindAsync(p => p.Id == e.ProductId)).FirstOrDefaultAsync();
+                             if (product is not null)
+                             {
+                                 product.Price += e.IncrementPrice;
+                                 await productCollection.FindOneAndReplaceAsync(p => p.Id == e.ProductId, product);
+                             }
+                             break;
+                         case AvailabilityChangedEvent e:
+                             product = await (await productCollection.FindAsync(p => p.Id == e.ProductId)).FirstOrDefaultAsync();
+                             if (product is not null)
+                             {
+                                product.IsAvailable = e.IsAvailable;
+                                await productCollection.FindOneAndReplaceAsync(p => p.Id == e.ProductId, product);
+                             }
                              break;
 
                          default:
